@@ -4,11 +4,15 @@ import edu.univ.erp.dao.AuthDAO;
 import edu.univ.erp.models.User;
 import edu.univ.erp.session.CurrentUser;
 
+
+import com.formdev.flatlaf.FlatLightLaf;   // FlatLaf import
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class LoginUI extends JFrame {
+
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
@@ -19,24 +23,30 @@ public class LoginUI extends JFrame {
         setSize(400, 250);
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        // Panel layout (modern & simple)
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
         JLabel userLabel = new JLabel("Username:");
         JLabel passLabel = new JLabel("Password:");
+
         usernameField = new JTextField();
         passwordField = new JPasswordField();
         loginButton = new JButton("Login");
 
+        // Add components
         panel.add(userLabel);
         panel.add(usernameField);
+
         panel.add(passLabel);
         panel.add(passwordField);
-        panel.add(new JLabel()); // empty
+
+        panel.add(new JLabel()); // empty space
         panel.add(loginButton);
 
         add(panel);
 
+        // Action listener for login
         loginButton.addActionListener(this::handleLogin);
     }
 
@@ -49,15 +59,22 @@ public class LoginUI extends JFrame {
 
         if (user != null) {
             CurrentUser.setUser(user);
-            JOptionPane.showMessageDialog(this, "Welcome " + user.getUsername() + " (" + user.getRole() + ")");
+
+            JOptionPane.showMessageDialog(this,
+                    "Welcome " + user.getUsername() + " (" + user.getRole() + ")");
+
             openDashboard(user.getRole());
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid credentials!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Invalid credentials!",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void openDashboard(String role) {
         dispose(); // close login window
+
         switch (role.toLowerCase()) {
             case "admin" -> new DashboardAdmin().setVisible(true);
             case "instructor" -> new DashboardInstructor().setVisible(true);
@@ -67,6 +84,13 @@ public class LoginUI extends JFrame {
     }
 
     public static void main(String[] args) {
+        // Enable modern UI theme
+        try {
+            FlatLightLaf.setup();
+        } catch (Exception e) {
+            System.err.println("Failed to initialize FlatLaf");
+        }
+
         SwingUtilities.invokeLater(() -> new LoginUI().setVisible(true));
     }
 }

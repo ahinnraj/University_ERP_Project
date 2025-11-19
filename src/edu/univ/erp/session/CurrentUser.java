@@ -3,17 +3,29 @@ package edu.univ.erp.session;
 import edu.univ.erp.models.User;
 
 public class CurrentUser {
-    private static User currentUser;
+    private static User current;
 
-    public static void setUser(User user) {
-        currentUser = user;
+    public static void setUser(User u) {
+        current = u;
     }
 
     public static User getUser() {
-        return currentUser;
+        return current;
+    }
+
+    public static Integer getUserId() {
+        return current == null ? null : current.getUserId();
+    }
+
+    public static String getUsername() {
+        return current == null ? null : current.getUsername();
+    }
+
+    public static String getRole() {
+        return current == null ? null : current.getRole();
     }
 
     public static void logout() {
-        currentUser = null;
+        current = null;
     }
 }
