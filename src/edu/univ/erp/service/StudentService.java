@@ -32,4 +32,13 @@ public class StudentService {
             return "Error: " + e.getMessage();
         }
     }
+    public String dropSection(int enrollmentId) {
+        EnrollmentDAO dao = new EnrollmentDAO();
+
+        if (dao.drop(enrollmentId)) {
+            return "Section dropped successfully!";
+        }
+        return "Failed to drop section.";
+    }
+
 }

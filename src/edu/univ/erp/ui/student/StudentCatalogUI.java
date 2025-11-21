@@ -17,7 +17,6 @@ public class StudentCatalogUI extends JFrame {
         setSize(1000, 600);
         setLocationRelativeTo(null);
 
-        // Table model with column names
         model = new DefaultTableModel(new Object[]{
                 "Course Code", "Title", "Credits",
                 "Section ID", "Capacity", "Day/Time", "Instructor"
@@ -28,23 +27,24 @@ public class StudentCatalogUI extends JFrame {
 
         add(scrollPane, BorderLayout.CENTER);
 
-        loadCourseCatalog();   // <-- IMPORTANT PART
+        loadCourseCatalog();
     }
 
-
-    /** ----------------------------
-     * Load Catalog Data From ERP DB
-     * ----------------------------
-     */
     private void loadCourseCatalog() {
         String query = """
-            SELECT c.code, c.title, c.credits,
-                   s.section_id, s.capacity,
-                   CONCAT(s.day_time) AS day_time,
-                   i.name AS instructor
-            FROM courses c
-            JOIN sections s ON c.course_id = s.course_id
-            LEFT JOIN instructors i ON s.instructor_id = i.user_id
+            SELECT 
+                c.code,
+                c.title,
+                c.credits,
+                s.section_id,
+                s.capacity,
+                s.day_time AS day_time,
+                ua.username AS instructor
+            FROM erp_db.courses c
+            JOIN erp_db.sections s ON c.course_id = s.course_id
+            JOIN erp_db.instructors i ON s.instructor_id = i.instructor_id
+            JOIN auth_db.users_auth ua ON ua.user_id = i.instructor_id
+            ORDER BY c.code;
         """;
 
         try (Connection conn = DatabaseConnection.getERPConnection();

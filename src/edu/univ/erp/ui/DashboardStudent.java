@@ -4,6 +4,10 @@ import edu.univ.erp.session.CurrentUser;
 import edu.univ.erp.ui.student.StudentCatalogUI;
 import edu.univ.erp.ui.student.RegisterSectionUI;
 import edu.univ.erp.ui.student.CourseCatalogUI;
+import edu.univ.erp.ui.student.DropSectionUI;
+import edu.univ.erp.ui.student.TimetableUI;
+import edu.univ.erp.ui.student.ViewGradesUI;
+
 
 
 
@@ -47,19 +51,13 @@ public class DashboardStudent extends JFrame {
 
         registerBtn.addActionListener(e -> new RegisterSectionUI().setVisible(true));
 
+        dropBtn.addActionListener(e -> new DropSectionUI().setVisible(true));
+        timetableBtn.addActionListener(e -> new TimetableUI().setVisible(true));
+        gradesBtn.addActionListener(e -> new ViewGradesUI().setVisible(true));
 
 
-        dropBtn.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Drop Section feature coming soon!")
-        );
 
-        timetableBtn.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Timetable feature coming soon!")
-        );
 
-        gradesBtn.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "Grades feature coming soon!")
-        );
 
         logoutBtn.addActionListener(e -> {
             CurrentUser.logout();
